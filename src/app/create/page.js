@@ -5,7 +5,7 @@ import styles from "./Create.module.css";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Create() {
-  const addBook = useContext(DispatchContext);
+  const dispatch = useContext(DispatchContext);
 
   const [bookInfo, setBookInfo] = useState({
     cover: "",
@@ -26,7 +26,12 @@ export default function Create() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    addBook({ ...bookInfo, id: uuidv4(), cover });
+    dispatch({
+      ...bookInfo,
+      type: "ADD_BOOK",
+      id: uuidv4(),
+      cover,
+    });
     setBookInfo({
       cover: "",
       title: "",

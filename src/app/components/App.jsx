@@ -1,12 +1,15 @@
 "use client";
+import { useReducer } from "react";
+import booksReducer from "../reducers/booksReducer";
 import { BookContext, DispatchContext } from "../bookContext";
-import useBooks from "../hooks/useBooks";
+import { initialBooks } from "../data/initialBooks";
 
 export const App = ({ children }) => {
-  const { books, addBook } = useBooks();
+  const [books, dispatch] = useReducer(booksReducer, initialBooks);
+
   return (
     <BookContext.Provider value={books}>
-      <DispatchContext.Provider value={addBook}>
+      <DispatchContext.Provider value={dispatch}>
         <div>{children}</div>
       </DispatchContext.Provider>
     </BookContext.Provider>
