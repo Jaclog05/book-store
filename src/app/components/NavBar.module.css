@@ -1,0 +1,22 @@
+.navBar {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 2px solid #e0e0e0;
+  position: fixed;
+  width: 100%;
+}
+
+.link {
+  color: #0070f3;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.link:hover {
+  color: #005bb5;
+  text-decoration: underline;
+}
