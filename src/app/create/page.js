@@ -9,7 +9,6 @@ export default function Create() {
   const dispatch = useContext(DispatchContext);
 
   const [bookInfo, setBookInfo] = useState(initialBookState);
-  const [cover, setCover] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -25,10 +24,8 @@ export default function Create() {
       ...bookInfo,
       type: "ADD_BOOK",
       id: uuidv4(),
-      cover,
     });
     setBookInfo(initialBookState);
-    setCover("");
   }
 
   function handleOnChangeFile(e) {
@@ -36,7 +33,10 @@ export default function Create() {
     var file = element.files[0];
     var reader = new FileReader();
     reader.onloadend = function () {
-      setCover(reader.result.toString());
+      setBookInfo((prevBookInfo) => ({
+        ...prevBookInfo,
+        cover: reader.result.toString(),
+      }));
     };
     reader.readAsDataURL(file);
   }
@@ -62,7 +62,7 @@ export default function Create() {
         />
         <div className={styles.container}>
           <input type="file" name="cover" onChange={handleOnChangeFile} />
-          {cover && <img className={styles.img} src={cover} width="200" />}
+          {bookInfo.cover && <img className={styles.img} src={bookInfo.cover} width="200" />}
         </div>
         <input
           name="description"
