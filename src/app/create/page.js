@@ -62,11 +62,7 @@ export default function Create() {
         />
         <div className={styles.container}>
           <input type="file" name="cover" onChange={handleOnChangeFile} />
-          {!!cover ? (
-            <img className={styles.img} src={cover} width="200" />
-          ) : (
-            ""
-          )}
+          {cover && <img className={styles.img} src={cover} width="200" />}
         </div>
         <input
           name="description"
