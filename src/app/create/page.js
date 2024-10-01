@@ -1,19 +1,14 @@
 "use client";
 import { useState, useContext } from "react";
 import { DispatchContext } from "../bookContext";
+import { initialBookState } from "../data/initialBookState";
 import styles from "./Create.module.css";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Create() {
   const dispatch = useContext(DispatchContext);
 
-  const [bookInfo, setBookInfo] = useState({
-    cover: "",
-    title: "",
-    author: "",
-    description: "",
-    review: "",
-  });
+  const [bookInfo, setBookInfo] = useState(initialBookState);
   const [cover, setCover] = useState("");
 
   function handleChange(e) {
@@ -32,13 +27,7 @@ export default function Create() {
       id: uuidv4(),
       cover,
     });
-    setBookInfo({
-      cover: "",
-      title: "",
-      author: "",
-      description: "",
-      review: "",
-    });
+    setBookInfo(initialBookState);
     setCover("");
   }
 
