@@ -20,6 +20,10 @@ export default function Create() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!bookInfo.title || !bookInfo.author || !bookInfo.cover) {
+      alert("Title, author and cover fields must be filled out");
+      return;
+    }
     dispatch({
       ...bookInfo,
       type: "ADD_BOOK",
@@ -31,14 +35,18 @@ export default function Create() {
   function handleOnChangeFile(e) {
     const element = e.target;
     var file = element.files[0];
-    var reader = new FileReader();
-    reader.onloadend = function () {
-      setBookInfo((prevBookInfo) => ({
-        ...prevBookInfo,
-        cover: reader.result.toString(),
-      }));
-    };
-    reader.readAsDataURL(file);
+    if (file && file.type.startsWith("image/")) {
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        setBookInfo((prevBookInfo) => ({
+          ...prevBookInfo,
+          cover: reader.result.toString(),
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a valid image file.");
+    }
   }
 
   return (
