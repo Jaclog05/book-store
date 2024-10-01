@@ -1,53 +1,18 @@
 "use client";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { DispatchContext } from "../bookContext";
 import { initialBookState } from "../data/initialBookState";
+import useForm from "../hooks/useForm";
 import styles from "./Create.module.css";
-import { v4 as uuidv4 } from "uuid";
 
 export default function Create() {
   const dispatch = useContext(DispatchContext);
-
-  const [bookInfo, setBookInfo] = useState(initialBookState);
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setBookInfo((prevBookInfo) => ({
-      ...prevBookInfo,
-      [name]: value,
-    }));
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!bookInfo.title || !bookInfo.author || !bookInfo.cover) {
-      alert("Title, author and cover fields must be filled out");
-      return;
-    }
-    dispatch({
-      ...bookInfo,
-      type: "ADD_BOOK",
-      id: uuidv4(),
-    });
-    setBookInfo(initialBookState);
-  }
-
-  function handleOnChangeFile(e) {
-    const element = e.target;
-    var file = element.files[0];
-    if (file && file.type.startsWith("image/")) {
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        setBookInfo((prevBookInfo) => ({
-          ...prevBookInfo,
-          cover: reader.result.toString(),
-        }));
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please upload a valid image file.");
-    }
-  }
+  const {
+    values: bookInfo,
+    handleChange,
+    handleSubmit,
+    handleOnChangeFile,
+  } = useForm(initialBookState, dispatch);
 
   return (
     <div className={styles.wrapper}>
@@ -70,7 +35,7 @@ export default function Create() {
         />
         <div className={styles.container}>
           <input type="file" name="cover" onChange={handleOnChangeFile} />
-          {bookInfo.cover && <img className={styles.img} src={bookInfo.cover} width="200" />}
+          { bookInfo.cover && <img className={styles.img} src={bookInfo.cover} width="200" /> }
         </div>
         <input
           name="description"
